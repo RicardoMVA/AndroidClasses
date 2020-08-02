@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CEPWebService</string>
+    <string name="cep_input_hint">Digite o CEP</string>
+    <string name="button_cep_text">Buscar CEP</string>
 </resources>
