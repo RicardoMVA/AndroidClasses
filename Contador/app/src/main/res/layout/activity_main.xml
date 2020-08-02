@@ -16,7 +16,7 @@
             android:textSize="25dp"/>
 
         <TextView
-            android:id="@+id/contador"
+            android:id="@+id/contadorView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -29,7 +29,7 @@
             android:layout_marginTop="50dp"
             android:text="@string/button_text"
             android:background="@color/corBotao"
-            android:layout_below="@id/contador"/>
+            android:layout_below="@id/contadorView"/>
 
         <EditText
             android:id="@+id/textoInput"
