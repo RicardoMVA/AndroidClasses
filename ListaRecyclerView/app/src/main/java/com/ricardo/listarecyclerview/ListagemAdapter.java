@@ -43,8 +43,11 @@ public class ListagemAdapter extends RecyclerView.Adapter<ListagemAdapter.Receit
         return new ReceitaHolder(itemView);
     }
 
+    // Replace the contents of a view (invoked by the layout manager)
+//    declare o holder e a posição como final, para garantir que cada holder mandará o index
+//    correto para o click listener
     @Override
-    public void onBindViewHolder(@NonNull ReceitaHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ReceitaHolder holder, final int position) {
 //        esse método é executado para cada item da lista. Ele sabe a quantidade de itens pq
 //        dissemos pra ele no método getItemCount()
         umaReceita = listaDeReceitas.get(position);
@@ -57,14 +60,30 @@ public class ListagemAdapter extends RecyclerView.Adapter<ListagemAdapter.Receit
         holder.mTitulo.setText(titulo);
         holder.mMensagem.setText(mensagem);
         Picasso.get().load(imagemUrl).resize(0, 120).into(holder.mImagem);
+
+        // pode implementar um click listener para adicionar essa funcionalidade ao holder
+//      note que o holder e a posição devem ter sido declaradas como final no bind acima, ou então
+//      o click listener sempre apontará para o bind realizado mais recentemente/último
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // cria uma intent para ir para a activity 'detalhes'
+                Intent intent = new Intent(context, DetalhesActivity.class);
+                intent.putExtra("nome", listaDeReceitas.get(position).getName());
+                intent.putExtra("descricao", listaDeReceitas.get(position).getDescription());
+                intent.putExtra("url", listaDeReceitas.get(position).getUrl());
+                context.startActivity(intent);
+            }
+        });
     }
 
+    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return listaDeReceitas.size();
     }
 
-    class ReceitaHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ReceitaHolder extends RecyclerView.ViewHolder {
         public TextView mTitulo;
         public TextView mMensagem;
         public ImageView mImagem;
@@ -77,21 +96,6 @@ public class ListagemAdapter extends RecyclerView.Adapter<ListagemAdapter.Receit
             mMensagem = itemView.findViewById(R.id.mensagem);
             mImagem = itemView.findViewById(R.id.imagem);
             mComponentePai = itemView.findViewById(R.id.componente_pai);
-
-//            define que o componente pai terá um click listener, que é acessado com this pq
-//            neste escopo estamos implementando o onClickListener
-            mComponentePai.setOnClickListener(this);
-        }
-
-        //        pode implementar um click listener para adicionar essa funcionalidade ao holder
-        @Override
-        public void onClick(View view) {
-//            cria uma intent para ir para a activity 'detalhes'
-            Intent intent = new Intent(context, DetalhesActivity.class);
-            intent.putExtra("nome", umaReceita.getName());
-            intent.putExtra("descricao", umaReceita.getDescription());
-            intent.putExtra("url", umaReceita.getUrl());
-            context.startActivity(intent);
         }
     }
 }
