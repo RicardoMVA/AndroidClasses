@@ -20,6 +20,8 @@ import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private RecyclerView recyclerView;
+    private ListagemAdapter adapter;
     private LinkedList<ReceitaModel> listaDeReceitas = new LinkedList<>();
 
     @Override
@@ -27,6 +29,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // pega a view que vai ser usada pelo recycler view
+        recyclerView = findViewById(R.id.recyclerview);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // determina que os itens serão exibidos na vertical, por padrão
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+//      acrescenta itens à lista
         listaDeReceitas.add(
                 new ReceitaModel("Pao",
                         "de Queijo Mineiro. Bacon ipsum dolor amet biltong fatback frankfurter corned beef picanha ham. Frankfurter chicken tri-tip bresaola ground round ham hock picanha pig buffalo ball tip pork belly.",
@@ -52,14 +64,10 @@ public class MainActivity extends AppCompatActivity {
                         "Todas as variedades. Bacon ipsum dolor amet biltong fatback frankfurter corned beef picanha ham. Frankfurter chicken tri-tip bresaola ground round ham hock picanha pig buffalo ball tip pork belly.",
                         "https://http2.mlstatic.com/balas-de-goma-fini-banana-citricas-5-kg-D_NQ_NP_712363-MLB40140050834_122019-O.webp"));
 
-//        pega a view que vai ser usada pelo recycler view
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
-//        pega o adapter criado
-        ListagemAdapter adapter = new ListagemAdapter(this, listaDeReceitas);
+//        pega o adapter criado e passa a lista pra ele
+        adapter = new ListagemAdapter(this, listaDeReceitas);
 //        passa o 'ListagemAdapter' para o recycler view usar
         recyclerView.setAdapter(adapter);
-//        determina que os itens serão exibidos na vertical, por padrão
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
